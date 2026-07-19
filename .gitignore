@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.Python
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Tests and tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration and secrets
+.env
+.streamlit/secrets.toml
+*.pem
+*.key
+
+# Generated model/data artifacts (retain only small, reviewed demo fixtures)
+artifacts/
+data/raw/
+data/interim/
+data/processed/
+reports/generated/
+*.joblib
+*.pkl
+
+# AMRFinderPlus databases and temporary output
+amrfinder_db/
+amrfinder-output/
+tmp/
+*.tmp
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

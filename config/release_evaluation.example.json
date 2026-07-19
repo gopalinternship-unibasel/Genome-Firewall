@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "release_eligible": false,
+  "group_disjoint_verified": false,
+  "target_workflow_validated": false,
+  "dataset_sha256": "REPLACE_WITH_LOWERCASE_SHA256",
+  "split_sha256": "REPLACE_WITH_LOWERCASE_SHA256",
+  "reviewer": "REPLACE_WITH_INDEPENDENT_REVIEWER",
+  "reviewed_at": "REPLACE_WITH_TIMEZONE_AWARE_ISO_8601",
+  "manifest_sha256": "REPLACE_WITH_LOWERCASE_SHA256",
+  "annotation": {
+    "feature_schema_version": "REPLACE_WITH_PINNED_SCHEMA",
+    "tool_version": "REPLACE_WITH_EXACT_AMRFINDER_VERSION",
+    "database_version": "REPLACE_WITH_PINNED_DATABASE_VERSION_HASH"
+  },
+  "drug_evaluations": []
+}
