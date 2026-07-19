@@ -4,9 +4,8 @@ joblib>=1.4,<2
 numpy>=1.26,<3
 openai>=1.68,<3
 pandas>=2.2,<4
-plotly>=5.24,<7
 pydantic>=2.8,<3
 python-dotenv>=1.0,<2
 PyYAML>=6.0,<7
 scikit-learn>=1.5,<2
-streamlit>=1.40,<1.57
+streamlit==1.59.2

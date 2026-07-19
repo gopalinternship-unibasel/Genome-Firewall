@@ -18,6 +18,7 @@ htmlcov/
 
 # Local configuration and secrets
 .env
+.vercel/
 .streamlit/secrets.toml
 *.pem
 *.key
