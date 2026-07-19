@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "python",
+  "fluid": true,
+  "functions": {
+    "asgi.py": {
+      "includeFiles": "{app.py,assets/**,config/**,src/genome_firewall/**}",
+      "excludeFiles": "{tests/**,docs/**,scripts/**}",
+      "maxDuration": 300
+    }
+  }
+}

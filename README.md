@@ -80,6 +80,35 @@ make check
 
 `make check` runs lint, formatting verification, and the test suite.
 
+## Deploy on Vercel
+
+The repository includes a dedicated ASGI adapter in `asgi.py`. It exports the
+top-level `app` variable required by Vercel while continuing to run the existing
+Streamlit interface from `app.py`.
+
+1. Import the GitHub repository into Vercel.
+2. Select **Python** as the Framework Preset.
+3. Keep the Root Directory set to the repository root (`.`).
+4. Leave Build Command and Output Directory empty so Vercel uses the checked-in
+   Python configuration.
+5. Deploy. Future commits to the connected branch will trigger new deployments.
+
+`vercel.json` enables Fluid compute, selects the Python runtime, and removes test
+and development-only directories from the function bundle. `.python-version`
+pins the deployment to Python 3.12. Streamlit uses a WebSocket connection for its
+interactive session, so verify both the page load and one demo interaction in the
+deployment preview before promoting it to production.
+
+The scientific Python dependency bundle uses Vercel Large Functions. New
+projects are enrolled automatically; for an existing project, add the
+non-secret environment variable `VERCEL_SUPPORT_LARGE_FUNCTIONS=1` to Preview
+and Production before redeploying.
+
+Vercel [limits a Function request body to 4.5 MB](https://vercel.com/docs/functions/limitations#request-body-size).
+Use the prepared demo fixtures for the hosted judge walkthrough; run the Docker
+deployment, or add a reviewed direct-to-object-storage upload flow, for larger
+genome files.
+
 ## Docker demo
 
 The default image is deliberately small and offline-friendly. It runs the disclosed demo and does not pretend that AMRFinderPlus is installed.
