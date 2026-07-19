@@ -1,0 +1,87 @@
+# Provisional hackathon catalog.
+#
+# This file is product configuration, not a clinical knowledge base. Drug
+# inclusion, target rules, determinant allowlists, and thresholds must be
+# reviewed against the organizer-provided data and pinned scientific sources
+# before trained mode is enabled. The application must never infer clinical
+# validity from an entry being present here.
+schema_version: "1.0"
+catalog_status: demo_provisional
+clinical_interpretation_allowed: false
+default_policy:
+  call_labels:
+    likely_to_work: LIKELY_TO_WORK
+    likely_to_fail: LIKELY_TO_FAIL
+    no_call: NO_CALL
+  require_target_for_work_call: true
+  marker_absence_is_susceptibility_evidence: false
+  conflict_action: NO_CALL
+  unsupported_action: NO_CALL
+  warning: >-
+    RESEARCH PROTOTYPE - NOT FOR CLINICAL USE. This report provides genomic
+    decision support only and does not select treatment. Every
+    antibiotic-response result must be confirmed with standard laboratory
+    susceptibility testing and reviewed by a trained healthcare or laboratory
+    professional.
+
+species:
+  escherichia_coli:
+    display_name: Escherichia coli
+    ncbi_taxonomy_id: 562
+    amrfinder_organism: Escherichia
+    status: provisional
+    accepted_aliases:
+      - E. coli
+      - Escherichia coli
+    drugs:
+      ciprofloxacin:
+        display_name: Ciprofloxacin
+        drug_class: fluoroquinolone
+        status: demo_provisional
+        target_gate:
+          logic: all_of
+          targets: [gyrA, parC]
+          ambiguous_or_partial_action: NO_CALL
+        evidence_allowlist:
+          genes: [qnrA, qnrB, qnrS, "aac(6')-Ib-cr"]
+          mutations: ["gyrA:S83L", "gyrA:D87N", "parC:S80I"]
+        thresholds:
+          source: trained_artifact_only
+          likely_to_work_max_p_resistant: null
+          likely_to_fail_min_p_resistant: null
+      ceftriaxone:
+        display_name: Ceftriaxone
+        drug_class: third_generation_cephalosporin
+        status: demo_provisional
+        target_gate:
+          logic: reviewed_panel
+          targets: [ftsI]
+          note: >-
+            A complete, biologically reviewed penicillin-binding-protein panel
+            is required before a likely-to-work call is enabled.
+          ambiguous_or_partial_action: NO_CALL
+        evidence_allowlist:
+          genes: ["blaCTX-M", "blaCMY"]
+          mutations: []
+        thresholds:
+          source: trained_artifact_only
+          likely_to_work_max_p_resistant: null
+          likely_to_fail_min_p_resistant: null
+      gentamicin:
+        display_name: Gentamicin
+        drug_class: aminoglycoside
+        status: demo_provisional
+        target_gate:
+          logic: reviewed_panel
+          targets: [rrs]
+          note: >-
+            Multi-copy rRNA genes require a dedicated completeness and
+            ambiguity policy; presence alone is not clinical evidence.
+          ambiguous_or_partial_action: NO_CALL
+        evidence_allowlist:
+          genes: ["aac(3)", "ant(2'')", armA, rmtB]
+          mutations: []
+        thresholds:
+          source: trained_artifact_only
+          likely_to_work_max_p_resistant: null
+          likely_to_fail_min_p_resistant: null
