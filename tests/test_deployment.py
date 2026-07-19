@@ -4,6 +4,9 @@ import ast
 import asyncio
 import importlib
 import json
+import os
+import subprocess
+import sys
 import tomllib
 from pathlib import Path
 
@@ -42,6 +45,50 @@ def test_vercel_entrypoint_has_a_static_top_level_app_export() -> None:
     }
 
     assert "app" in assigned_names
+
+
+def test_source_checkout_can_load_demo_without_editable_install() -> None:
+    """Mirror Vercel: dependencies are installed, but this project is not."""
+    code = """
+import json
+import sys
+from pathlib import Path
+
+project_root = Path.cwd().resolve()
+source_root = (project_root / "src").resolve()
+sys.path = [
+    entry
+    for entry in sys.path
+    if not entry or Path(entry).resolve() != source_root
+]
+
+import asgi
+from genome_firewall.demo import load_demo_case
+
+case = load_demo_case("marker_fail")
+print(json.dumps({
+    "sample_id": case["report"]["sample_id"],
+    "mode": case["report"]["mode"],
+    "source_on_path": str(source_root) in sys.path,
+}))
+"""
+    environment = os.environ.copy()
+    environment.pop("PYTHONPATH", None)
+    result = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=PROJECT_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    payload = json.loads(result.stdout.strip().splitlines()[-1])
+    assert payload == {
+        "sample_id": "DEMO-EC-001",
+        "mode": "DEMO",
+        "source_on_path": True,
+    }
 
 
 def test_vercel_entrypoint_serves_streamlit_routes() -> None:

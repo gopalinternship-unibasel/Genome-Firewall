@@ -15,6 +15,7 @@ import importlib
 import inspect
 import json
 import os
+import sys
 from collections.abc import Iterable, Mapping
 from datetime import UTC, datetime
 from pathlib import Path
@@ -24,6 +25,15 @@ import streamlit as st
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent
+SOURCE_ROOT = ROOT / "src"
+
+# Vercel bundles the source tree alongside this script, but it installs only the
+# third-party dependencies from pyproject.toml at runtime. Add the src-layout
+# package directory explicitly so dynamic imports work in a clean deployment as
+# well as in an editable developer installation.
+if SOURCE_ROOT.is_dir() and str(SOURCE_ROOT) not in sys.path:
+    sys.path.insert(0, str(SOURCE_ROOT))
+
 STYLESHEET = ROOT / "assets" / "styles.css"
 load_dotenv(ROOT / ".env", override=False)
 
